@@ -46,3 +46,6 @@ Click on a balloon to view its last 24 hours of movement.(They are those white d
   ## Some Screenshots of the application
   ![home page](https://github.com/uthamN/Maps-WindBorne/blob/main/public/home.png)
   ![path page](https://github.com/uthamN/Maps-WindBorne/blob/main/public/loc.png)
+
+  ## Credits
+  Shoutout to [Vasturiano](https://github.com/vasturiano/react-globe.gl) for an amazing package: react-globe-gl, a Globe Data Visualization using ThreeJS/WebGL.
