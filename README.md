@@ -1,4 +1,13 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Maps
+This project is created using the data provided by WindBorne. This application shows the location of all the balloons around the world by WindBorne, one can access the trajectory of any balloon by clicking on it, also the location of the balloon over the last 24 hours is presented.
+
+The application is deployed: [Link to Maps](https://maps-d31zm0zyv-uthams-projects-d19d9bb6.vercel.app/)
+
+**NOTE**
+This application uses [CORS anywhere](https://cors-anywhere.herokuapp.com/) to avoid CORS error, so if you see a blank globe its a good chance that you need to visit this website and click on get access button.
+
+
+Also this project is developed using [Next.js](https://nextjs.org).
 
 ## Getting Started
 
@@ -13,24 +22,27 @@ pnpm dev
 # or
 bun dev
 ```
-
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## What it does
+Imagine a network of balloons soaring across the Earth, gathering data as they drift through the skies. Our system fetches and displays the latest positions of these balloons in real-time. By selecting a balloon, users can unlock a treasure trove of information, including:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+ - Its exact coordinates over the past 24 hours.
+ - The distance traveled during that period.
+ - The locations it has passed over, whether land or sea.
 
-## Learn More
+ ## How it Works
+Click on a balloon to view its last 24 hours of movement.(They are those white dots on the globe on the left. Hover on them to get the balloon id)
 
-To learn more about Next.js, take a look at the following resources:
+ - Check detailed location data and visualize the journey.
+ - All flights are displayed on an interactive 3D globe.
+ - If certain balloon positions are unavailable, the system informs users about potential data gaps.
+ - Additionally, you can also play with the globe on the left!
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+ ## But Why?
+  This system is more than just a visualization tool; it represents a powerful insight into atmospheric movement, research, and global tracking technologies. Whether you're an enthusiast, a researcher, or simply curious, the Balloon Data System provides a unique window into the world above us.
+  Aside from that, I recently learnt about a library to represent something on a globe, wanted to use that. A lot of learning and fun!
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+  ## Some Screenshots of the application
+  ![alt text](http://url/to/img.png)
+  ![alt text](http://url/to/img.png)
