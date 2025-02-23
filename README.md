@@ -44,5 +44,5 @@ Click on a balloon to view its last 24 hours of movement.(They are those white d
   Aside from that, I recently learnt about a library to represent something on a globe, wanted to use that. A lot of learning and fun!
 
   ## Some Screenshots of the application
-  ![alt text](http://url/to/img.png)
-  ![alt text](http://url/to/img.png)
+  ![home page](https://github.com/uthamN/Maps-WindBorne/blob/main/public/home.png)
+  ![path page](https://github.com/uthamN/Maps-WindBorne/blob/main/public/loc.png)
