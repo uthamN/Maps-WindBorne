@@ -1,95 +1,132 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client'
+
+import "@/app/style.css";
+import { useEffect, useState } from 'react';
+import { redirect } from 'next/navigation'
+import TotalInfo from "@/components/info";
+import dynamic from "next/dynamic";
+
+const ShowAllGlobe =  dynamic(() => import('@/components/globe.js'), {
+  ssr: false, 
+});
 
 export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.js</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+  const [balData, setBalData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [show, setShow] = useState(true);
+  const [invalidBal, setIvalidBal] = useState(0);
+  const url = 'https://a.windbornesystems.com/treasure/';
+
+  
+
+  useEffect(() => {
+    setLoading(true)
+    console.log(window.location.href);
+    const width = window.innerWidth;
+    console.log(width);
+    if (show) {
+        getData();
+        console.log('running');
+    }
+  }, [show]);
+
+  useEffect(() => {
+    // console.log('Updated balData:', balData); 
+  }, [balData]);
+
+  useEffect(() => {
+    // console.log('Updated invalidBal:', invalidBal); 
+  }, [invalidBal]);
+
+  async function getData() {
+    console.log('Fetching data...');
+    try {
+        let rawData = "";
+
+        for (let i = 0; i < 24; i++) {
+            let ic = i < 10 ? '0' + i : i;
+
+            const response = await fetch(`https://cors-anywhere.herokuapp.com/${url}${ic}.json`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                    "Access-Control-Allow-Origin":"*"
+
+                }
+            });
+
+            if (response.status !== 200) {
+                continue;
+            } 
+
+            const text = await response.text();
+            const cleanedText = text.replace(/NaN/g, 'null');
+
+            try {
+                rawData = JSON.parse(cleanedText);
+            } catch (e) {
+                continue;
+            }
+            break;
+        }        
+        
+        manageData(rawData);
+
+    } catch (e) {
+        console.error("Error fetching or processing data:", e);
+    }
+}
+
+
+  const manageData = (data) => {
+      const temp = [];
+      let inv = 0;
+
+      for (let i = 0; i < data.length; i++) {
+          if (data[i][0] == null || data[i][1] == null || data[i][2] == null) {
+              console.warn('Skipping invalid entry:', data[i]);
+              inv +=1;
+              continue;
+          }
+
+          const o = {
+              lat: data[i][0],
+              lng: data[i][1],
+              alt: data[i][2],
+              color: "white",
+              name: i
+          };
+
+          temp.push(o);
+      }
+
+      setBalData(temp);
+      setIvalidBal(inv);
+      setLoading(false);
+  };
+
+
+  if (loading) {
+    return (
+      <div>
+        Loading
+      </div>
+    )
+  } else {
+    return (
+      <div>
+        <div className="main">
+          <div className="main_left">
+            <ShowAllGlobe balData={balData}/>
+          </div>
+          <div className="main_right">
+            <TotalInfo tb={balData.length} inv={invalidBal} />
+          </div>
         </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+      </div>
+    );
+  }
+  
 }
